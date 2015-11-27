@@ -3,9 +3,9 @@
 
 /*
 
-Project	: Universe
-By		: Mast
-Date	: August '14
+Project : Universe
+By      : Mast
+Date    : August '14
 
 */
 
@@ -17,7 +17,6 @@ Date	: August '14
 
 struct Planet
 {
-private:
 	int x;
 	int y;
 	int z;
@@ -28,18 +27,9 @@ private:
 	int Cstor;
 	int Dstor;
 
-public:
 	Planet(int x, int y, int z, int Mlvl, int Clvl, int Dlvl, int Mstor, int Cstor, int Dstor) : x(x), y(y), z(z), Mlvl(Mlvl), Clvl(Clvl), Dlvl(Dlvl), Mstor(Mstor), Cstor(Cstor), Dstor(Dstor) {}
 
-	int get_x();
-	int get_y();
-	int get_z();
-	int get_Mlvl();
-	int get_Clvl();
-	int get_Dlvl();
-	int get_Mstor();
-	int get_Cstor();
-	int get_Dstor();
+	~Planet(){};
 
 	int getPlanet();
 	void printPlanet();
@@ -84,21 +74,23 @@ int Planet::getDlvl()
 
 struct Universe
 {
-private:
 	std::string sName;
-	std::vector<Planet> Planets;
+	std::vector<Planet> vPlanet;
 
-public:
 	Universe(std::string sName) : sName(sName) {}
 
-	std::vector<std::string> vsSanitizeData(std::vector<std::string>);
+	~Universe(){};
 
+	std::vector<std::string> vsSanitizeData(std::vector<std::string>);
 	void sort_x();
 	void sort_y();
 	void sort_z();
 	void sort_Mlvl();
 	void sort_Clvl();
 	void sort_Dlvl();
+	void sort_Mstor();
+	void sort_Cstor();
+	void sort_Dstor();
 	void readCSV();
 	void addPlanet(Planet);
 	int splitString(std::string);
@@ -107,107 +99,121 @@ public:
 	void printUniverse();
 };
 
-int Planet::get_x()
-{
-	return x;
-}
-int Planet::get_y()
-{
-	return y;
-}
-int Planet::get_z()
-{
-	return z;
-}
-int Planet::get_Mlvl()
-{
-	return Mlvl;
-}
-int Planet::get_Clvl()
-{
-	return Clvl;
-}
-int Planet::get_Dlvl()
-{
-	return Dlvl;
-}
-
 struct compare_x
 {
-	inline bool operator() (Planet& left, Planet& right)
+	inline bool operator() (const Planet& left, const Planet& right)
 	{
-		return (left.get_x() < right.get_x());
+		return (left.x < right.x);
 	}
 };
 
 struct compare_y
 {
-	inline bool operator() (Planet& left, Planet& right)
+	inline bool operator() (const Planet& left, const Planet& right)
 	{
-		return (left.get_y() < right.get_y());
+		return (left.y < right.y);
 	}
 };
 
 struct compare_z
 {
-	inline bool operator() (Planet& left, Planet& right)
+	inline bool operator() (const Planet& left, const Planet& right)
 	{
-		return (left.get_z() < right.get_z());
+		return (left.z < right.z);
 	}
 };
 
 struct compare_Mlvl
 {
-	inline bool operator() (Planet& left, Planet& right)
+	inline bool operator() (const Planet& left, const Planet& right)
 	{
-		return (left.get_Mlvl() < right.get_Mlvl());
+		return (left.Mlvl < right.Mlvl);
 	}
 };
 
 struct compare_Clvl
 {
-	inline bool operator() (Planet& left, Planet& right)
+	inline bool operator() (const Planet& left, const Planet& right)
 	{
-		return (left.get_Clvl() < right.get_Clvl());
+		return (left.Clvl < right.Clvl);
 	}
 };
 
 struct compare_Dlvl
 {
-	inline bool operator() (Planet& left, Planet& right)
+	inline bool operator() (const Planet& left, const Planet& right)
 	{
-		return (left.get_Dlvl() < right.get_Dlvl());
+		return (left.Dlvl < right.Dlvl);
+	}
+};
+
+struct compare_Mstor
+{
+	inline bool operator() (const Planet& left, const Planet& right)
+	{
+		return (left.Mstor < right.Mstor);
+	}
+};
+
+struct compare_Cstor
+{
+	inline bool operator() (const Planet& left, const Planet& right)
+	{
+		return (left.Cstor < right.Cstor);
+	}
+};
+
+struct compare_Dstor
+{
+	inline bool operator() (const Planet& left, const Planet& right)
+	{
+		return (left.Dstor < right.Dstor);
 	}
 };
 
 void Universe::sort_x()
 {
-	std::sort(Planets.begin(), Planets.end(), compare_x());
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_x());
 }
 
 void Universe::sort_y()
 {
-	std::sort(Planets.begin(), Planets.end(), compare_y());
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_y());
 }
 
 void Universe::sort_z()
 {
-	std::sort(Planets.begin(), Planets.end(), compare_z());
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_z());
 }
 
 void Universe::sort_Mlvl()
 {
-	std::sort(Planets.begin(), Planets.end(), compare_Mlvl());
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_Mlvl());
 }
 
 void Universe::sort_Clvl()
 {
-	std::sort(Planets.begin(), Planets.end(), compare_Clvl());
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_Clvl());
 }
 
 void Universe::sort_Dlvl()
 {
-	std::sort(Planets.begin(), Planets.end(), compare_Dlvl());
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_Dlvl());
+}
+
+void Universe::sort_Mstor()
+{
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_Mstor());
+}
+
+void Universe::sort_Cstor()
+{
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_Cstor());
+}
+
+void Universe::sort_Dstor()
+{
+	std::sort(vPlanet.begin(), vPlanet.end(), compare_Dstor());
 }
 
 std::vector<std::string> Universe::vsSanitizeData(std::vector<std::string> Vec)
@@ -250,23 +256,23 @@ void Universe::readCSV()
 
 void Universe::addPlanet(Planet p)
 {
-	Planets.push_back(p);
+	vPlanet.push_back(p);
 }
 
 void Universe::getUniverse()
 {
-	for (unsigned i = 0; i < Planets.size(); i++)
+	for (unsigned i = 0; i < vPlanet.size(); i++)
 	{
-		Planets[i].getPlanet();
+		vPlanet[i].getPlanet();
 	}
 }
 
 void Universe::printUniverse()
 {
 	std::cout << '\n';
-	for (unsigned i = 0; i < Planets.size(); i++)
+	for (unsigned i = 0; i < vPlanet.size(); i++)
 	{
-		Planets[i].printPlanet();
+		vPlanet[i].printPlanet();
 	}
 }
 
